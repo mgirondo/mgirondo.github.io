@@ -200,7 +200,8 @@ function init() {
 function createControls(camera) {
 
 	flyControls = new FlyControls(camera, renderer.domElement);
-	
+	flyControls.rollSpeed = 0.1;
+	flyControls.movementSpeed = 10;
 	
 
 }
