@@ -16,6 +16,25 @@ const near = 0.1;
 const far = 1000;
 
 const mainColor = '#F3B05A';
+const floor = {
+	color: '#e7e7e7',
+	metallic: .778,
+	roughness: 0.5,
+	sheenTint: 0.5,
+	clearCoat: 0.03
+}
+
+const torus = {
+	color: '#aeccdb - #c1b98c' // degradado de cerca a lejos
+}
+
+const ambientLight = { // es un directionalLight desde arriba del escenario apuntado hacia abajo
+	power: '1000w',
+	distanciaDelSUelo: '50m'
+}
+
+// TODO: Poner arboles alrededor del pasillo
+
 
 const clock = new THREE.Clock();
 
@@ -200,9 +219,8 @@ function init() {
 function createControls(camera) {
 
 	flyControls = new FlyControls(camera, renderer.domElement);
-	flyControls.rollSpeed = 0.1;
-	flyControls.movementSpeed = 10;
-	
+	flyControls.rollSpeed = .5;
+	flyControls.movementSpeed = 50;
 
 }
 
