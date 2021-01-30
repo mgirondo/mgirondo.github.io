@@ -1,15 +1,14 @@
 import * as THREE from './node_modules/three/build/three.module.js';
 import { GLTFLoader } from './node_modules/three/examples/jsm/loaders/GLTFLoader.js';
 
-import { TrackballControls } from './node_modules/three/examples/jsm/controls/TrackballControls.js';
-import { FlyControls } from './node_modules/three/examples/jsm/controls/FlyControls.js';
+import { OrbitControls } from './node_modules/three/examples/jsm/controls/OrbitControls.js';
 import { RectAreaLightUniformsLib } from './node_modules/three/examples/jsm/lights/RectAreaLightUniformsLib.js';
 import { RectAreaLightHelper } from './node_modules/three/examples/jsm/helpers/RectAreaLightHelper.js';
 
 
 
 
-let perspectiveCamera, controls, flyControls, scene, renderer;
+let perspectiveCamera, controls, scene, renderer;
 
 const fov = 40;
 const near = 0.1;
@@ -18,20 +17,14 @@ const far = 1000;
 const mainColor = '#F3B05A';
 const floor = {
 	color: '#e7e7e7',
-	metallic: .778,
+	metalness: .778,
 	roughness: 0.5,
-	sheenTint: 0.5,
-	clearCoat: 0.03
 }
 
 const torus = {
 	color: '#aeccdb - #c1b98c' // degradado de cerca a lejos
 }
 
-const ambientLight = { // es un directionalLight desde arriba del escenario apuntado hacia abajo
-	power: '1000w',
-	distanciaDelSUelo: '50m'
-}
 
 // TODO: Poner arboles alrededor del pasillo
 
@@ -78,9 +71,12 @@ function init() {
 		const planeSize = 1000;
 
 		const planeGeo = new THREE.PlaneBufferGeometry(planeSize, planeSize);
-		const planeMat = new THREE.MeshPhongMaterial({
+		const planeMat = new THREE.MeshStandardMaterial({
 			side: THREE.DoubleSide,
-			color: 'grey'
+			color: floor.color,
+			roughness: floor.roughness,
+			metalness: floor.metalness
+
 		});
 		const mesh = new THREE.Mesh(planeGeo, planeMat);
 		mesh.receiveShadow = true;
@@ -134,7 +130,7 @@ function init() {
 
 			document.addEventListener('keydown', (event) => {
 				const keyName = event.key;
-				if(keyName === 'p') {
+				if (keyName === 'p') {
 					video.play();
 				}
 			})
@@ -164,33 +160,75 @@ function init() {
 
 	/**LIGHTS**/
 
-	// Ambient Light
+	// Point Light - para luz ambiente
 	{
-		const ambient = new THREE.AmbientLight(mainColor, .25);
-		scene.add(ambient);
+		const pointLight = new THREE.PointLight('#ffffff', 1, 0, 2);
+		pointLight.position.set(0, 30, 50);
+		pointLight.castShadow = true;
+		scene.add(pointLight);
+		// so we can easily see where the point light is
+		const helper = new THREE.PointLightHelper(pointLight);
+		scene.add(helper);
+	}
+
+	// Spot light - para luz del torus
+	{
+		const spotLight = new THREE.SpotLight(mainColor, 1);
+		spotLight.castShadow = true;
+		spotLight.position.set(0, 10, 0);
+		spotLight.target.position.set(0, 0, 50);
+		spotLight.penumbra = 10;
+		scene.add(spotLight);
+		scene.add(spotLight.target);
+	}
+
+
+	// Ambient Light - sustituido por luz direccional desde arriba
+	{
+		// const ambient = new THREE.DirectionalLight('#ffffff', 1);
+		// ambient.castShadow = true;
+		// ambient.position.set(0, 50, 50);
+		// ambient.target.position.set(0, 0, 50);
+		// ambient.shadow.mapSize.width = 2048;
+		// ambient.shadow.mapSize.height = 2048;
+		// scene.add(ambient);
+		// scene.add(ambient.target);
+
+		// const ambientCam = ambient.shadow.camera;
+		// ambientCam.near = 0;
+		// ambientCam.far = 100;
+		// ambientCam.left = -40;
+		// ambientCam.right = 40;
+		// ambientCam.top = 40;
+		// ambientCam.bottom = -40;
+
+		// const cameraHelper = new THREE.CameraHelper(ambient.shadow.camera);
+		// scene.add(cameraHelper);
+
+
 	}
 
 	// Directional Light
 	{
-		const light = new THREE.DirectionalLight(mainColor, 1.5);
-		light.castShadow = true;
-		light.position.set(0, 5, 4);
-		light.target.position.set(0, 0, 100);
-		light.shadow.mapSize.width = 2048;
-		light.shadow.mapSize.height = 2048;
-		scene.add(light);
-		scene.add(light.target);
+		// const light = new THREE.DirectionalLight('#ffffff', 1.5);
+		// light.castShadow = true;
+		// light.position.set(1, 1, 4);
+		// light.target.position.set(0, 0, 100);
+		// light.shadow.mapSize.width = 2048;
+		// light.shadow.mapSize.height = 2048;
+		// scene.add(light);
+		// scene.add(light.target);
 
-		const cam = light.shadow.camera;
-		cam.near = 0;
-		cam.far = 100;
-		cam.left = -40;
-		cam.right = 40;
-		cam.top = 20;
-		cam.bottom = -20;
+		// const cam = light.shadow.camera;
+		// cam.near = 0;
+		// cam.far = 200;
+		// cam.left = -40;
+		// cam.right = 40;
+		// cam.top = 20;
+		// cam.bottom = -20;
 
-		//const cameraHelper = new THREE.CameraHelper(light2.shadow.camera);
-		//scene.add(cameraHelper);
+		// const cameraHelper = new THREE.CameraHelper(light.shadow.camera);
+		// scene.add(cameraHelper);
 	}
 
 	// RectAreaLight
@@ -218,9 +256,9 @@ function init() {
 
 function createControls(camera) {
 
-	flyControls = new FlyControls(camera, renderer.domElement);
-	flyControls.rollSpeed = .5;
-	flyControls.movementSpeed = 50;
+	controls = new OrbitControls(camera, renderer.domElement);
+	controls.rollSpeed = .01;
+	controls.movementSpeed = 50;
 
 }
 
@@ -233,7 +271,7 @@ function onWindowResize() {
 
 	renderer.setSize(window.innerWidth, window.innerHeight);
 
-	
+
 
 }
 
@@ -242,9 +280,9 @@ function animate() {
 	const delta = clock.getDelta();
 
 	requestAnimationFrame(animate);
-	
-	
-	flyControls.update(delta);
+
+
+	controls.update(delta);
 	render();
 
 }
