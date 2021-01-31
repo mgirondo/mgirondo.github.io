@@ -12,7 +12,7 @@ const mainColor = '#F3B05A';
 const floor = {
 	color: '#e7e7e7',
 	metalness: .778,
-	roughness: 0.5,
+	roughness: 1.0,
 }
 
 const torus = {
@@ -21,11 +21,36 @@ const torus = {
 
 /////////////////////////
 
-let perspectiveCamera, controls, scene, renderer;
+let perspectiveCamera, controls, renderer;
+let objects = [];
+const scene = new THREE.Scene();
 
-const objects = [];
+const pickPosition = { x: 0, y: 0 };
+clearPickPosition();
 
-let raycaster;
+
+
+class PickHelper {
+	constructor() {
+		this.raycaster = new THREE.Raycaster();
+		this.pickedObject = null;
+	}
+
+	pick(normalizedPosition, scene, camera) {
+		// cast ray
+		this.raycaster.setFromCamera(normalizedPosition, camera);
+		// get list of objects that ray intersected
+		const intersectedObjects = this.raycaster.intersectObjects(objects);
+		if (intersectedObjects.length) {
+			// pick first ojbect
+			this.pickedObject = intersectedObjects[0].object;
+			console.log(this.pickedObject);
+		}
+
+	}
+}
+
+const pickHelper = new PickHelper();
 
 let moveForward = false;
 let moveBackward = false;
@@ -55,7 +80,62 @@ function init() {
 
 	const aspect = window.innerWidth / window.innerHeight;
 
-	const loader = new GLTFLoader();
+	let loader = new GLTFLoader();
+
+	for (let i = 0; i < 2; i++) {
+		for (let j = 0; j < 5; j++) {
+			loader.load('./models/scene.gltf', function (gltf) {
+				let forestScene = gltf.scene;
+				forestScene.scale.set(10, 10, 10);
+				forestScene.position.set(100 + i * 100, -15, j * 50);
+				
+				scene.add(forestScene);
+
+			}, undefined, function (error) {
+				console.error(error);
+			});
+		}
+		for (let j = 0; j < 5; j++) {
+			loader.load('./models/scene.gltf', function (gltf) {
+				let forestScene = gltf.scene;
+				forestScene.scale.set(10, 10, 10);
+				forestScene.position.set(-100 - i * 100, -15, j * 50);
+				
+				scene.add(forestScene);
+
+			}, undefined, function (error) {
+				console.error(error);
+			});
+		}
+
+	}
+
+	for (let i = 0; i < 3; i++) {
+
+		loader.load('./models/scene.gltf', function (gltf) {
+			let forestScene = gltf.scene;
+			forestScene.scale.set(10, 10, 10);
+			forestScene.position.set(-100 + i*100, -15, -100);
+			
+			scene.add(forestScene);
+
+		}, undefined, function (error) {
+			console.error(error);
+		});
+
+		loader.load('./models/scene.gltf', function (gltf) {
+			let forestScene = gltf.scene;
+			forestScene.scale.set(10, 10, 10);
+			forestScene.rotateY(180);
+			forestScene.position.set(-50 + i*100, -15, 200);
+			
+			scene.add(forestScene);
+
+		}, undefined, function (error) {
+			console.error(error);
+		});
+
+	}
 
 	loader.load('./models/quimeraScene.glb', function (gltf) {
 		let quimeraScene = gltf.scene;
@@ -64,12 +144,14 @@ function init() {
 		quimeraScene.traverse((obj) => {
 			if (obj.castShadow !== undefined) {
 				obj.castShadow = true;
-				obj.receiveShadow = true;
+				objects.push(obj);
 			}
 		});
 	}, undefined, function (error) {
 		console.error(error);
 	});
+
+
 
 
 	// CAMERA
@@ -80,9 +162,9 @@ function init() {
 	perspectiveCamera.position.set(0, 0, 125);
 
 	// SCENE
-	scene = new THREE.Scene();
+
 	scene.background = new THREE.Color('#000000')
-	scene.fog = new THREE.Fog('#000000', 10, 500)
+	scene.fog = new THREE.Fog('#000000', 10, 200)
 
 	// GROUND
 	{
@@ -135,7 +217,8 @@ function init() {
 			const color = 'black';
 
 			let mesh = new THREE.Mesh(geometry, new THREE.MeshStandardMaterial({ color: color }));
-			mesh.position.set(-30, -12, -5)
+			mesh.position.set(-30, -12, -5);
+
 			scene.add(mesh);
 
 			rectangleShape.holes.splice(0, 1);
@@ -182,77 +265,28 @@ function init() {
 	{
 		const pointLight = new THREE.PointLight('#ffffff', 1, 0, 2);
 		pointLight.position.set(0, 30, 50);
-		pointLight.castShadow = true;
+		
 		scene.add(pointLight);
-		// so we can easily see where the point light is
-		const helper = new THREE.PointLightHelper(pointLight);
-		scene.add(helper);
+
 	}
 
 	// Spot light - para luz del torus
 	{
-		const spotLight = new THREE.SpotLight(mainColor, 1);
+		const spotLight = new THREE.SpotLight(mainColor, .5);
 		spotLight.castShadow = true;
 		spotLight.position.set(0, 10, 0);
 		spotLight.target.position.set(0, 0, 50);
-		spotLight.penumbra = 10;
+		spotLight.penumbra = 12;
+		spotLight.shadow.mapSize.width = 5120;
+		spotLight.shadow.mapSize.height = 5120;
 		scene.add(spotLight);
 		scene.add(spotLight.target);
-	}
-
-
-	// Ambient Light - sustituido por luz direccional desde arriba
-	{
-		// const ambient = new THREE.DirectionalLight('#ffffff', 1);
-		// ambient.castShadow = true;
-		// ambient.position.set(0, 50, 50);
-		// ambient.target.position.set(0, 0, 50);
-		// ambient.shadow.mapSize.width = 2048;
-		// ambient.shadow.mapSize.height = 2048;
-		// scene.add(ambient);
-		// scene.add(ambient.target);
-
-		// const ambientCam = ambient.shadow.camera;
-		// ambientCam.near = 0;
-		// ambientCam.far = 100;
-		// ambientCam.left = -40;
-		// ambientCam.right = 40;
-		// ambientCam.top = 40;
-		// ambientCam.bottom = -40;
-
-		// const cameraHelper = new THREE.CameraHelper(ambient.shadow.camera);
-		// scene.add(cameraHelper);
-
-
-	}
-
-	// Directional Light
-	{
-		// const light = new THREE.DirectionalLight('#ffffff', 1.5);
-		// light.castShadow = true;
-		// light.position.set(1, 1, 4);
-		// light.target.position.set(0, 0, 100);
-		// light.shadow.mapSize.width = 2048;
-		// light.shadow.mapSize.height = 2048;
-		// scene.add(light);
-		// scene.add(light.target);
-
-		// const cam = light.shadow.camera;
-		// cam.near = 0;
-		// cam.far = 200;
-		// cam.left = -40;
-		// cam.right = 40;
-		// cam.top = 20;
-		// cam.bottom = -20;
-
-		// const cameraHelper = new THREE.CameraHelper(light.shadow.camera);
-		// scene.add(cameraHelper);
 	}
 
 	// RectAreaLight
 	{
 		const color = mainColor;
-		const intensity = 15;
+		const intensity = 1;
 		const width = 25;
 		const height = 25;
 		const light = new THREE.RectAreaLight(color, intensity, width, height);
@@ -263,11 +297,11 @@ function init() {
 	// CONTROLS
 	createControls(perspectiveCamera);
 
-	// RAYCASTER
-	raycaster = new THREE.Raycaster(new THREE.Vector3(), new THREE.Vector3(0, - 1, 0), 0, 10);
+
 
 	// RENDERER
-	renderer = new THREE.WebGLRenderer({ antialias: true });
+	const canvas = document.querySelector('#canvas');
+	renderer = new THREE.WebGLRenderer({ antialias: true, canvas: canvas });
 	renderer.setPixelRatio(window.devicePixelRatio);
 	renderer.setSize(window.innerWidth, window.innerHeight);
 	document.body.appendChild(renderer.domElement);
@@ -275,13 +309,100 @@ function init() {
 	renderer.shadowMap.enabled = true;
 
 
-
 }
 
 function createControls(camera) {
 
 	controls = new PointerLockControls(camera, document.body);
+
+	const blocker = document.getElementById('blocker');
+	const instructions = document.getElementById('instructions');
+
+	instructions.addEventListener('click', function () {
+
+		controls.lock();
+
+	});
+
+	controls.addEventListener('lock', function () {
+
+		instructions.style.display = 'none';
+		blocker.style.display = 'none';
+
+	});
+
+	controls.addEventListener('unlock', function () {
+
+		blocker.style.display = 'block';
+		instructions.style.display = '';
+
+	});
+
 	scene.add(controls.getObject());
+
+	const onKeyDown = function (event) {
+
+
+		switch (event.code) {
+
+			case 'ArrowUp':
+			case 'KeyW':
+				moveForward = true;
+				break;
+
+			case 'ArrowLeft':
+			case 'KeyA':
+				moveLeft = true;
+				break;
+
+			case 'ArrowDown':
+			case 'KeyS':
+				moveBackward = true;
+				break;
+
+			case 'ArrowRight':
+			case 'KeyD':
+				moveRight = true;
+				break;
+
+			case 'Space':
+				if (canJump === true) velocity.y += 350;
+				canJump = false;
+				break;
+
+		}
+
+	};
+
+	const onKeyUp = function (event) {
+
+		switch (event.code) {
+
+			case 'ArrowUp':
+			case 'KeyW':
+				moveForward = false;
+				break;
+
+			case 'ArrowLeft':
+			case 'KeyA':
+				moveLeft = false;
+				break;
+
+			case 'ArrowDown':
+			case 'KeyS':
+				moveBackward = false;
+				break;
+
+			case 'ArrowRight':
+			case 'KeyD':
+				moveRight = false;
+				break;
+
+		}
+
+	};
+
+
 
 	document.addEventListener('keydown', onKeyDown);
 	document.addEventListener('keyup', onKeyUp);
@@ -308,16 +429,30 @@ function animate() {
 
 	const time = performance.now();
 
+
 	if (controls.isLocked) {
-		raycaster.ray.origin.copy(controls.getObject().position);
-		raycaster.ray.origin.y -= 10;
-		raycaster.ray.origin.z -= 10;
-		raycaster.ray.origin.x -= 10;
+
+		const delta = (time - prevTime) / 1000;
+
+		velocity.x -= velocity.x * 10.0 * delta;
+		velocity.z -= velocity.z * 10.0 * delta;
+		velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
+
+		direction.z = Number(moveForward) - Number(moveBackward);
+		direction.x = Number(moveRight) - Number(moveLeft);
+		direction.normalize(); // this ensures consistent movements in all directions
+
+		if (moveForward || moveBackward) velocity.z -= direction.z * 250.0 * delta;
+		if (moveLeft || moveRight) velocity.x -= direction.x * 250.0 * delta;
+
+
+		controls.moveRight(- velocity.x * delta);
+		controls.moveForward(- velocity.z * delta);
 
 	}
 
 
-	controls.update();
+	prevTime = time;
 	render();
 
 }
@@ -326,71 +461,47 @@ function render() {
 
 	const camera = perspectiveCamera;
 
+	pickHelper.pick(pickPosition, scene, camera);
+
 	renderer.render(scene, camera);
 
 }
 
-const onKeyDown = function (event) {
+function getCanvasRelativePosition(event) {
+	const rect = canvas.getBoundingClientRect();
+	return {
+		x: (event.clientX - rect.left) * canvas.width / rect.width,
+		y: (event.clientY - rect.top) * canvas.height / rect.height,
+	};
+}
 
-	switch (event.code) {
+function setPickPosition(event) {
+	const pos = getCanvasRelativePosition(event);
+	pickPosition.x = (pos.x / canvas.width) * 2 - 1;
+	pickPosition.y = (pos.y / canvas.height) * -2 + 1;  // note we flip Y
+}
 
-		case 'ArrowUp':
-		case 'KeyW':
-			moveForward = true;
-			break;
+function clearPickPosition() {
+	// unlike the mouse which always has a position
+	// if the user stops touching the screen we want
+	// to stop picking. For now we just pick a value
+	// unlikely to pick something
+	pickPosition.x = -100000;
+	pickPosition.y = -100000;
+}
 
-		case 'ArrowLeft':
-		case 'KeyA':
-			moveLeft = true;
-			break;
+window.addEventListener('mousemove', setPickPosition);
+window.addEventListener('mouseout', clearPickPosition);
+window.addEventListener('mouseleave', clearPickPosition);
 
-		case 'ArrowDown':
-		case 'KeyS':
-			moveBackward = true;
-			break;
+window.addEventListener('touchstart', (event) => {
+	// prevent the window from scrolling
+	event.preventDefault();
+	setPickPosition(event.touches[0]);
+}, { passive: false });
 
-		case 'ArrowRight':
-		case 'KeyD':
-			moveRight = true;
-			break;
+window.addEventListener('touchmove', (event) => {
+	setPickPosition(event.touches[0]);
+});
 
-		case 'Space':
-			if (canJump === true) velocity.y += 350;
-			canJump = false;
-			break;
-
-	}
-
-};
-
-const onKeyUp = function (event) {
-
-	switch (event.code) {
-
-		case 'ArrowUp':
-		case 'KeyW':
-			moveForward = false;
-			break;
-
-		case 'ArrowLeft':
-		case 'KeyA':
-			moveLeft = false;
-			break;
-
-		case 'ArrowDown':
-		case 'KeyS':
-			moveBackward = false;
-			break;
-
-		case 'ArrowRight':
-		case 'KeyD':
-			moveRight = false;
-			break;
-
-	}
-
-};
-
-
-
-
+window.addEventListener('touchend', clearPickPosition);
