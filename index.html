@@ -7,9 +7,28 @@
     <title>Quimera social</title>
 </head>
 <body>
-    <video id="video" loop crossOrigin="anonymous" playsinline style="display:none">
-        <source src="ronnie-coleman-screams.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
+
+    <video id="video-north" loop crossOrigin="anonymous" playsinline style="display:none">
+        <source src="FRONT.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
     </video>
+
+    <video id="video-south" loop crossOrigin="anonymous" playsinline style="display:none">
+        <source src="BACK.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
+    </video>
+
+    <video id="video-west" loop crossOrigin="anonymous" playsinline style="display:none">
+        <source src="letaral-LEFT.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
+    </video>
+
+    <video id="video-east" loop crossOrigin="anonymous" playsinline style="display:none">
+        <source src="letaral-RIGHT.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
+    </video>
+
+   <div id="loading-overlay">
+       <div>Cargando página</div>
+       <div class="loader"></div>
+   </div>
+
     <div id="blocker">
 
         <div id="instructions">

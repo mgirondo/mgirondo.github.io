@@ -1,0 +1,462 @@
+{
+  "accessors": [
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 65532,
+      "max": [
+        55.153045654296875,
+        243.06333923339844,
+        8.7456760406494141
+      ],
+      "min": [
+        -67.886894226074219,
+        12.135477066040039,
+        -12.317194938659668
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 786384,
+      "componentType": 5126,
+      "count": 65532,
+      "max": [
+        0.99999779462814331,
+        0.69918733835220337,
+        0.99999868869781494
+      ],
+      "min": [
+        -0.99999791383743286,
+        -0.67234969139099121,
+        -0.99998748302459717
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "componentType": 5126,
+      "count": 65532,
+      "max": [
+        0.99999451637268066,
+        0.6676936149597168,
+        0.99991977214813232,
+        1
+      ],
+      "min": [
+        -0.99999761581420898,
+        -0.625785231590271,
+        -0.9999992847442627,
+        1
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 65532,
+      "max": [
+        980.56329345703125,
+        1132.541259765625
+      ],
+      "min": [
+        -980.56329345703125,
+        -1132.541259765625
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 374295,
+      "max": [
+        65531
+      ],
+      "min": [
+        0
+      ],
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 1572768,
+      "componentType": 5126,
+      "count": 21846,
+      "max": [
+        55.077220916748047,
+        248.06315612792969,
+        6.0885024070739746
+      ],
+      "min": [
+        -67.794448852539062,
+        39.881500244140625,
+        -10.909107208251953
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 1834920,
+      "componentType": 5126,
+      "count": 21846,
+      "max": [
+        0.99999755620956421,
+        0.56333684921264648,
+        1
+      ],
+      "min": [
+        -0.99999541044235229,
+        -0.58356684446334839,
+        -0.99994558095932007
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "byteOffset": 1048512,
+      "componentType": 5126,
+      "count": 21846,
+      "max": [
+        1,
+        0.62543267011642456,
+        0.99997866153717041,
+        1
+      ],
+      "min": [
+        -0.99990814924240112,
+        -0.50276166200637817,
+        -0.9999992847442627,
+        1
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 524256,
+      "componentType": 5126,
+      "count": 21846,
+      "max": [
+        811.052978515625,
+        851.661376953125
+      ],
+      "min": [
+        -821.99359130859375,
+        -859.38287353515625
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 1497180,
+      "componentType": 5125,
+      "count": 105402,
+      "max": [
+        21845
+      ],
+      "min": [
+        0
+      ],
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 2097072,
+      "componentType": 5126,
+      "count": 435,
+      "max": [
+        -1.1439173221588135,
+        124.43521881103516,
+        3.3435895442962646
+      ],
+      "min": [
+        -12.40534782409668,
+        118.92626190185547,
+        -6.732518196105957
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 2102292,
+      "componentType": 5126,
+      "count": 435,
+      "max": [
+        0.99997437000274658,
+        0.43943831324577332,
+        0.99890178442001343
+      ],
+      "min": [
+        -0.99860286712646484,
+        -0.46062135696411133,
+        -0.99942570924758911
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "byteOffset": 1398048,
+      "componentType": 5126,
+      "count": 435,
+      "max": [
+        0.99994486570358276,
+        0.077221997082233429,
+        0.99999821186065674,
+        1
+      ],
+      "min": [
+        -0.99999052286148071,
+        -0.098580062389373779,
+        -0.99988090991973877,
+        1
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 699024,
+      "componentType": 5126,
+      "count": 435,
+      "max": [
+        126.19762420654297,
+        27.08782958984375
+      ],
+      "min": [
+        -126.1976318359375,
+        -27.08782958984375
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 1918788,
+      "componentType": 5125,
+      "count": 2370,
+      "max": [
+        434
+      ],
+      "min": [
+        0
+      ],
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "aaronwildman46 (https://sketchfab.com/aaronwildman46)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/models/448d074c14604616a6f289dc8601a934",
+      "title": "Curtain"
+    },
+    "generator": "Sketchfab-4.4.0",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 1928268,
+      "byteOffset": 0,
+      "name": "floatBufferViews",
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 702504,
+      "byteOffset": 1928268,
+      "byteStride": 8,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 2107512,
+      "byteOffset": 2630772,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 1405008,
+      "byteOffset": 4738284,
+      "byteStride": 16,
+      "name": "floatBufferViews",
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 6143292,
+      "uri": "scene.bin"
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "emissiveFactor": [
+        0,
+        0,
+        0
+      ],
+      "name": "Material3637",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.98263117
+      }
+    },
+    {
+      "doubleSided": true,
+      "emissiveFactor": [
+        0,
+        0,
+        0
+      ],
+      "name": "Material3641",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.196078,
+          0,
+          0.39607799999999999,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.85185527159999996
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "Curtain_FBX2_Material3637_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0,
+            "TANGENT": 2,
+            "TEXCOORD_0": 3
+          },
+          "indices": 4,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Curtain_FBX2_Material3637_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 6,
+            "POSITION": 5,
+            "TANGENT": 7,
+            "TEXCOORD_0": 8
+          },
+          "indices": 9,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Curtain_FBX2_Material3641_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 11,
+            "POSITION": 10,
+            "TANGENT": 12,
+            "TEXCOORD_0": 13
+          },
+          "indices": 14,
+          "material": 1,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "name": "RootNode (gltf orientation matrix)",
+      "rotation": [
+        -0.70710678118654746,
+        -0,
+        -0,
+        0.70710678118654757
+      ]
+    },
+    {
+      "children": [
+        2
+      ],
+      "name": "RootNode (model correction matrix)"
+    },
+    {
+      "children": [
+        3
+      ],
+      "matrix": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "name": "4c9bd76fe30643daba0616aad2308561.fbx"
+    },
+    {
+      "children": [
+        4
+      ],
+      "name": "RootNode"
+    },
+    {
+      "children": [
+        5,
+        6,
+        7
+      ],
+      "name": "Curtain_FBX2"
+    },
+    {
+      "mesh": 0,
+      "name": "Curtain_FBX2_Material3637_0"
+    },
+    {
+      "mesh": 1,
+      "name": "Curtain_FBX2_Material3637_0"
+    },
+    {
+      "mesh": 2,
+      "name": "Curtain_FBX2_Material3641_0"
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "OSG_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ]
+}
+
